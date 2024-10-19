@@ -1,0 +1,35 @@
+.home-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    background-color: #f5f5f5; /* Optional: to make it visually distinct */
+}
+
+.home-categories .category {
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.home-categories .category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.home-categories .category img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.home-categories .category h3 {
+    font-size: 1.2em;
+    color: #333;
+}
