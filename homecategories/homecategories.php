@@ -10,7 +10,7 @@ class HomeCategories extends Module
         $this->name = 'homecategories';
         $this->tab = 'front_office_features';
         $this->version = '1.0.0';
-        $this->author = 'Your Name';
+        $this->author = 'kakajan';
         $this->need_instance = 0;
 
         parent::__construct();
@@ -23,13 +23,35 @@ class HomeCategories extends Module
 
     public function install()
     {
-        return parent::install() &&
-        $this->registerHook('displayHome') &&
-        $this->installTab('AdminParentModulesSf', 'AdminHomeCategories', 'Home Categories');
+        if (!parent::install() ||
+            !$this->registerHook('displayHome') ||
+            !$this->installTab('AdminParentModulesSf', 'AdminHomeCategories', 'Home Categories')) {
+            return false;
+        }
+
+        $sql = "CREATE TABLE IF NOT EXISTS `" . _DB_PREFIX_ . "homecategories` (
+            `id_homecategories` int(10) unsigned NOT NULL AUTO_INCREMENT,
+            `id_category` int(10) unsigned NOT NULL,
+            PRIMARY KEY (`id_homecategories`)
+        ) ENGINE=" . _MYSQL_ENGINE_ . " DEFAULT CHARSET=utf8;";
+
+        if (!Db::getInstance()->execute($sql)) {
+            error_log('Table creation failed: ' . Db::getInstance()->getMsgError()); // Log error
+            return false;
+        }
+
+        return true;
     }
 
     public function uninstall()
     {
+        $sql = "DROP TABLE IF EXISTS `" . _DB_PREFIX_ . "homecategories`";
+
+        if (!Db::getInstance()->execute($sql)) {
+            error_log('Table deletion failed: ' . Db::getInstance()->getMsgError()); // Log error
+            return false;
+        }
+
         return parent::uninstall() && $this->uninstallTab('AdminHomeCategories');
     }
 
